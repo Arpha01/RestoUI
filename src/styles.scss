@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import 'animate.css';
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('/assets/fonts/DMSans-Regular.ttf');
+}
+
+html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+}

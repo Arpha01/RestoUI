@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'NoodleScript';
+    src: url('/assets/fonts/NoodleScript.ttf');
+}
+
+.logo-text {
+    font-family: 'NoodleScript', sans-serif;
+}
+
+.nav-show {
+    display: block !important;
+}
+
+@media only screen and (min-width: 1024px) {
+    a.active {
+      border-bottom: 4px solid #63b3ed;
+      color: #63b3ed;
+      font-weight: bold;
+    }
+  
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 18;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+}
+
+.dropdown-toggle {
+    white-space: nowrap;
+}
+
+.dropdown-toggle:empty::after {
+    margin-left: 0;
+}
+
+.show {
+    display: block;
+}
+
+button>* {
+    pointer-events: none;
+}

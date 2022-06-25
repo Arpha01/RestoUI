@@ -1,0 +1,71 @@
+<nav class="flex items-center justify-between flex-wrap bg-white shadow font-quicksand" #navbar>
+  <div class="flex flex-wrap justify-between mx-auto container">
+    <div class="flex items-center flex-shrink-0 text-gray-900 p-2">
+      <a routerLink="/" class="font-bold text-black tracking-wider">
+        <img src="assets/images/noodle.svg" alt="Logo" class="w-7 float-left mb-1"><span
+          class="ml-2 my-auto text-lg logo-text">ListResto</span>
+      </a>
+    </div>
+    <div class="block lg:hidden my-auto">
+      <button
+        class="flex items-center px-3 py-2 mr-2 border rounded text-teal-200 border-teal-400 hover:text-gray-400 hover:border-white burger"
+        (click)="showMenu()">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+    <div class="w-full hidden flex-grow lg:flex lg:items-center lg:w-auto" id="menu" #menu>
+      <div class="ml-auto">
+        <div class="text-sm lg:flex-grow md:ml-4 lg:ml-4">
+          <a routerLink="/restaurant" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent 
+                    hover:border-blue-400" [ngClass]="{'active': currentUrl == '/'}">
+            <i class="fa-solid fa-house"></i>
+            Home
+          </a>
+          <a routerLink="/restaurant" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent 
+                    hover:border-blue-400" [ngClass]="{'active': currentUrl == '/restaurant'}">
+            <i class="fas fa-utensils mr-1"></i>
+            Daftar Restoran
+          </a>
+          <a routerLink="/tentang" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent 
+                    hover:border-blue-400" [ngClass]="{'active': currentUrl == '/tentang'}">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            Tentang Saya
+          </a>
+
+          <button id="loginBtn" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent"
+          (click)="showLoginDropdown()" *ngIf="!isLogged">
+            <i class="fa-solid fa-arrow-right-to-bracket mr-1"></i>
+            Login          
+          </button>
+          <ul class="dropdown-menu w-48 absolute md:right-0 lg:right-0 bg-white shadow hidden text-gray-700 rounded" #loginNav>
+            <li>
+              <a class="w-full hover:bg-gray-400 py-2 px-3 block whitespace-no-wrap cursor-pointer" routerLink="/auth/login">
+                <i class="fa-solid fa-user"></i> Login User
+              </a>
+            </li> 
+            <li>
+              <a class="w-full hover:bg-gray-400 py-2 px-3 block whitespace-no-wrap cursor-pointer" routerLink="/auth/admin/login">
+                <i class="fa-solid fa-user-secret"></i> Login Admin
+              </a>
+            </li>
+          </ul>
+          <button id="toggleBtn" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent"
+          (click)="showDropdown()" *ngIf="isLogged">
+            <i class="fa-solid fa-user"></i>            
+            <span class="ml-2">{{ currentUser!.name }}</span>
+          </button>
+          <ul class="dropdown-menu w-48 absolute md:right-0 lg:right-0 bg-white shadow hidden text-gray-700 rounded" #dropNav>
+            <li>
+              <a class="w-full hover:bg-gray-400 py-2 px-3 block whitespace-no-wrap cursor-pointer" (click)="logoutUser();">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
