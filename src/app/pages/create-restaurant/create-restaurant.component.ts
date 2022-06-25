@@ -17,10 +17,10 @@ export class CreateRestaurantComponent implements OnInit {
     ]),
     openschedules: new FormArray([
       new FormGroup({
-        startday: new FormControl(''),
+        startday: new FormControl('', Validators.required),
         endday: new FormControl(''),
-        open: new FormControl(''),
-        closed: new FormControl('')
+        open: new FormControl('', Validators.required),
+        closed: new FormControl('', Validators.required)
       })
     ])
   });
