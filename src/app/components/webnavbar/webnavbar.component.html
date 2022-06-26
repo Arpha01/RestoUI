@@ -19,7 +19,7 @@
     <div class="w-full hidden flex-grow lg:flex lg:items-center lg:w-auto" id="menu" #menu>
       <div class="ml-auto">
         <div class="text-sm lg:flex-grow md:ml-4 lg:ml-4">
-          <a routerLink="/restaurant" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent 
+          <a routerLink="/" class="nav-item block lg:inline-block lg:mt-0 text-gray-500 py-4 md:py-6 lg:py-6 px-4 hover:text-gray-600 lg:border-b-4 border-transparent 
                     hover:border-blue-400" [ngClass]="{'active': currentUrl == '/'}">
             <i class="fa-solid fa-house"></i>
             Home
@@ -58,6 +58,12 @@
             <span class="ml-2">{{ currentUser!.name }}</span>
           </button>
           <ul class="dropdown-menu w-48 absolute md:right-0 lg:right-0 bg-white shadow hidden text-gray-700 rounded" #dropNav>
+            <li>
+              <a class="w-full hover:bg-gray-400 py-2 px-3 block whitespace-no-wrap cursor-pointer" routerLink="/restaurant/create"
+              *ngIf="currentUser!.constructor.name == 'Admin'">
+              <i class="fa-solid fa-plus"></i> Tambah Restoran
+              </a>
+            </li>
             <li>
               <a class="w-full hover:bg-gray-400 py-2 px-3 block whitespace-no-wrap cursor-pointer" (click)="logoutUser();">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout

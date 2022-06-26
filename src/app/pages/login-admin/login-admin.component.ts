@@ -56,8 +56,6 @@ export class LoginAdminComponent implements OnInit {
          }
        }
 
-       this.onError();
-
     }, (err) => {
       
       this.onError();

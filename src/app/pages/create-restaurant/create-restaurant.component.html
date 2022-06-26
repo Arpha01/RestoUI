@@ -1,60 +1,86 @@
 <div class="container-form">
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" type="ball-clip-rotate" size="medium" color="#fff" [fullScreen]="true">
+      <p class="text-base text-white" #loadIndicator>Loading...</p>
+  </ngx-spinner>
   <div class="card-form">
     <div class="row-form">
+      <div class="flex flex-wrap rounded bg-red-400 px-2 py-2 animate__animated animate__fadeInUp text-sm mb-4"
+          [ngClass]="{'hidden': !errorStatus.isError, 'block': errorStatus.isError}">
+          <p class="text-white" *ngFor="let message of errorStatus.messages">{{ message }}</p>
+
+          <button class="text-white ml-auto"><i class="fa-solid fa-xmark mr-1" (click)="closeErrorAlert();"></i></button>
+      </div>
+      <div class="flex flex-wrap rounded bg-green-500 px-2 py-2 animate__animated animate__fadeInUp text-sm mb-4"
+          [ngClass]="{'hidden': !successStatus.isSuccess, 'block': successStatus.isSuccess}">
+          <p class="text-white" *ngFor="let message of successStatus.messages">{{ message }}</p>
+
+          <button class="text-white ml-auto"><i class="fa-solid fa-xmark mr-1" (click)="closeSuccessAlert();"></i></button>
+      </div>
       <div class="mb-6">
         <h4 class="text-3xl font-bold">Buat Restoran Baru</h4>
         <p class="text-sm text-gray-700">Input restoran baru untuk ditampilkan pada halaman restoran terfavorit</p>
+        <p class="text-xs text-red-500 mt-2">*) Wajib diisi</p>
       </div>
       <form [formGroup]="form">
         <div class="input-group mb-4">
-          <label for="name">Nama Restoran</label>
-          <input type="text" name="name" id="name" class="px-2 py-1 border border-gray-300
-                    focus:outline-none focus:border-blue-500 rounded" formControlName="name">
-          <p *ngIf="controls.name.touched && controls.name.errors!.required" class="text-xs text-red-500">Nama
+          <label for="name">Nama Restoran <span class="text-red-500 text-xs">*</span></label>
+          <input type="text" name="name" id="name" class="px-2 py-2 border border-gray-300
+                    focus:outline-none focus:border-blue-500 rounded w-4/5" formControlName="name">
+          <p *ngIf="controls.name.touched && controls.name.hasError('required')" class="text-xs text-red-500">Nama
             restaurant belum diisi</p>
         </div>
         <p class="text-blue-500 mb-4">Jadwal buka</p>
         <div formArrayName="openschedules">
-            <div class="flex flex-wrap" *ngFor="let dynamic of schedules.controls; let i=index" [formGroupName]="i">
+            <div class="flex flex-wrap animate__animated animate__fadeInDown mt-6" *ngFor="let dynamic of schedules.controls; let i=index" [formGroupName]="i">
                 <div class="input-group">
-                    <label for="hari" class="text-sm mb-1">Hari</label>
+                    <label for="hari" class="text-sm mb-1">Hari <span class="text-red-500 text-xs">*</span></label>
                     <select name="start" formControlName="startday" id="" class="p-2 mr-3 text-sm border border-gray-300 rounded">
                         <option value="" selected>Pilih Hari</option>
-                        <option value="Sun">Sunday</option>
-                        <option value="Mon">Monday</option>
-                        <option value="Tue">Tuesday</option>
-                        <option value="Wed">Wednesday</option>
-                        <option value="Thu">Thursday</option>
-                        <option value="Fri">Friday</option>
-                        <option value="Sat">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tueday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <label for="hari" class="text-sm mb-1">Sampai</label>
                     <select name="end" formControlName="endday" id="" class="p-2 mr-3 text-sm border border-gray-300 rounded">
-                        <option value="" selected>Pilih Hari</option>
-                        <option value="Sun">Sunday</option>
-                        <option value="Mon">Monday</option>
-                        <option value="Tue">Tuesday</option>
-                        <option value="Wed">Wednesday</option>
-                        <option value="Thu">Thursday</option>
-                        <option value="Fri">Friday</option>
-                        <option value="Sat">Saturday</option>
+                      <option value="" selected>Pilih Hari</option>
+                      <option value="Sunday">Sunday</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tueday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="open" class="text-sm mb-1">Buka</label>
+                    <label for="open" class="text-sm mb-1">Buka <span class="text-red-500 text-xs">*</span></label>
                     <input type="time" name="open" id="open" class="px-2 py-1 border border-gray-300
-                    focus:outline-none focus:border-blue-500 rounded" formControlName="open">
+                    focus:outline-none focus:border-blue-500 rounded mr-3" formControlName="open">
                 </div>
                 <div class="input-group">
-                    <label for="closed" class="text-sm mb-1">Tutup</label>
+                    <label for="closed" class="text-sm mb-1">Tutup <span class="text-red-500 text-xs">*</span></label>
                     <input type="time" name="closed" id="closed" class="px-2 py-1 border border-gray-300
-                    focus:outline-none focus:border-blue-500 rounded" formControlName="closed">
+                    focus:outline-none focus:border-blue-500 rounded mr-3" formControlName="closed">
                 </div>
+                <button class="text-red-500 self-end hover:text-red-400 px-2 py-1 rounded" (click)="removeSchedule(i)" *ngIf="i != 0">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
-        
+        <button class="p-2 bg-transparent border border-blue-500 focus:outline-none hover:border-gray-500 text-blue-500 rounded
+        self-end text-sm shadow-sm mt-4" (click)="addSchedule()">
+          <i class="fa-solid fa-plus"></i> Tambah
+        </button>
+        <div class="text-center mt-8">
+          <button class="px-3 py-2 bg-blue-500 focus:outline-none hover:bg-blue-400 text-white rounded disabled:cursor-not-allowed disabled:bg-blue-300" (click)="onSubmit()" 
+          [disabled]="!form.valid">Submit</button>
+        </div>
       </form>
     </div>
     <div class="row-image">

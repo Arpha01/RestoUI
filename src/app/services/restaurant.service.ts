@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators';
 import { environment } from 'src/environments/environment';
 import { handleError } from '../helpers/ErrorHandler';
+import { Restaurant } from '../models/restaurant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,11 @@ export class RestaurantService {
     return this.http.get(`${environment.endpoint}/restaurants`, { params: data, headers: this.headers }).pipe(
       catchError(handleError)
     )
+  }
+
+  store(restaurant: any): Observable<any> {
+    return this.http.post<Restaurant>(`${environment.endpoint}/restaurants`, restaurant, {headers: this.headers}).pipe(
+      catchError(handleError)
+    );
   }
 }
