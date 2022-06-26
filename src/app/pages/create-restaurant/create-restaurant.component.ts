@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Restaurant } from 'src/app/models/restaurant.model';
 import { Schedule } from 'src/app/models/schedule.model';
@@ -24,7 +25,7 @@ export class CreateRestaurantComponent implements OnInit, AfterViewInit {
     messages: ['Success message']
   }
 
-  days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   form: FormGroup = new FormGroup({
     name: new FormControl('', [
@@ -99,9 +100,14 @@ export class CreateRestaurantComponent implements OnInit, AfterViewInit {
     let restaurant = new Restaurant(this.controls.name.value, schedules);
 
     this.restaurantService.store(restaurant).subscribe(res => {
-        this.form.reset();
+      console.log(res);
+        if(res.success) {
+          this.form.reset();
 
-        this.onSuccess();
+          this.onSuccess();
+        } else {
+          this.onError();
+        }
     }, err => {
       this.onError();
     });

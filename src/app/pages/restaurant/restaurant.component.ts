@@ -59,7 +59,7 @@ export class RestaurantComponent implements OnInit {
   parseModel(result:any, setPage = true) {
     if(setPage) {
       this.page.size = result.meta.per_page;
-      this.page.totalElements = result.total;
+      this.page.totalElements = result.meta.total;
     }
   
     this.restaurants = result.data;

@@ -52,11 +52,15 @@ export class WebnavbarComponent implements OnInit {
   @HostListener('window:click', ['$event'])
   windowClick(event:any): void {
     if(!event.target.matches('#toggleBtn')) {
-      this.dropdownNavbar.nativeElement.classList.remove('show');
+      if(this.isLogged) {
+        this.dropdownNavbar.nativeElement.classList.remove('show');
+      }
     }
 
     if(!event.target.matches('#loginBtn')) {
-      this.loginNavbar.nativeElement.classList.remove('show');
+      if(!this.isLogged) {
+        this.loginNavbar.nativeElement.classList.remove('show');
+      }
     }
   }
 

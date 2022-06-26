@@ -16,7 +16,7 @@
                 <input type="text" name="search" id="search" [(ngModel)]="searchValue"
                   class="py-2 md:py-3 pl-10 rounded-l shadow-md w-full focus:outline-none" placeholder="Cari nama restoran.." #search>
                
-                <button class="text-red-500 absolute right-2.5 top-3 hover:text-red-800" (click)="onReset();" *ngIf="searchValue">
+                <button class="text-red-500 absolute right-2.5 top-2 md:top-3 hover:text-red-800" (click)="onReset();" *ngIf="searchValue">
                     <i class="fa-solid fa-xmark"></i>
                   </button>
               </div>
