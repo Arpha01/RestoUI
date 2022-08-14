@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "c49b9e15-d280-41aa-beb3-0edc6d142dd9"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -79,7 +82,10 @@
               "browserTarget": "RestoUI:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
