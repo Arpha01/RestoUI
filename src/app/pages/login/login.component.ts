@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/services/auth.service';
@@ -34,9 +34,9 @@ export class LoginComponent implements OnInit {
     this.spinner.hide();
   }
 
-  loginForm = new FormGroup({
-    email: new FormControl('', [ Validators.required ]),
-    password: new FormControl('', [ Validators.required ])
+  loginForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [ Validators.required ]),
+    password: new UntypedFormControl('', [ Validators.required ])
   })
 
   control = this.loginForm.controls;

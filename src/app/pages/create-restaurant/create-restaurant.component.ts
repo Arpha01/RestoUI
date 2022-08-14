@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Restaurant } from 'src/app/models/restaurant.model';
@@ -27,31 +27,31 @@ export class CreateRestaurantComponent implements OnInit, AfterViewInit {
 
   days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-  form: FormGroup = new FormGroup({
-    name: new FormControl('', [
+  form: UntypedFormGroup = new UntypedFormGroup({
+    name: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(3),
     ]),
-    openschedules: new FormArray([
-      new FormGroup({
-        startday: new FormControl('', Validators.required),
-        endday: new FormControl(''),
-        open: new FormControl('', Validators.required),
-        closed: new FormControl('', Validators.required)
+    openschedules: new UntypedFormArray([
+      new UntypedFormGroup({
+        startday: new UntypedFormControl('', Validators.required),
+        endday: new UntypedFormControl(''),
+        open: new UntypedFormControl('', Validators.required),
+        closed: new UntypedFormControl('', Validators.required)
       })
     ])
   });
 
   get schedules() {
-    return this.form.get('openschedules') as FormArray;
+    return this.form.get('openschedules') as UntypedFormArray;
   }
 
   addSchedule() {
-    this.schedules.push(new FormGroup({
-      startday: new FormControl('', Validators.required),
-      endday: new FormControl(''),
-      open: new FormControl('', Validators.required),
-      closed: new FormControl('', Validators.required)
+    this.schedules.push(new UntypedFormGroup({
+      startday: new UntypedFormControl('', Validators.required),
+      endday: new UntypedFormControl(''),
+      open: new UntypedFormControl('', Validators.required),
+      closed: new UntypedFormControl('', Validators.required)
     }));
   }
 
