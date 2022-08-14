@@ -22,9 +22,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
-    if(this.authService.isLogged$()) {
-      this.router.navigate(['/restaurant']);
-    }
+    this.authService.isLogged$().subscribe((res:any) => {
+      console.log(res);
+
+    });
+    // if(this.authService.isLogged$()) {
+    //   this.router.navigate(['/restaurant']);
+    // }
     
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
     this.spinner.hide();
@@ -45,7 +49,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(email, password).subscribe((res: any) => {
        if(res.status == 'success') {
-        localStorage.setItem('token', res.content.access_token);
         if(this.returnUrl) {
           this.router.navigate([this.returnUrl]);
          } else {

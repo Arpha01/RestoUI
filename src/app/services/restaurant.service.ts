@@ -10,14 +10,8 @@ import { Restaurant } from '../models/restaurant.model';
   providedIn: 'root'
 })
 export class RestaurantService {
-  headers;
-
   constructor(private http: HttpClient) { 
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer 1|deCkQ0MtPPJNAjACN6GV1NQ1OmA02v7OAhPAmdwA'
-    });
+    
   }
 
   findAll(data?: any, name?: string): Observable<any> {
@@ -30,13 +24,13 @@ export class RestaurantService {
         delete data.name;
       }
     }
-    return this.http.get(`${environment.endpoint}/restaurants`, { params: data, headers: this.headers }).pipe(
+    return this.http.get(`${environment.endpoint}/restaurants`, { params: data }).pipe(
       catchError(handleError)
     )
   }
 
   store(restaurant: any): Observable<any> {
-    return this.http.post<Restaurant>(`${environment.endpoint}/restaurants`, restaurant, {headers: this.headers}).pipe(
+    return this.http.post<Restaurant>(`${environment.endpoint}/restaurants`, restaurant).pipe(
       catchError(handleError)
     );
   }

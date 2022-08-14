@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/internal/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/internal/operators';
 import { environment } from 'src/environments/environment';
 import { handleError } from '../helpers/ErrorHandler';
 import { Admin } from '../models/admin.model';
@@ -17,15 +17,23 @@ export class AuthService {
   public currentUser: Admin|User|undefined;
 
   loginAdmin(email: string, password:string): Observable<any> {
-    return this.http.post<Admin>(`${environment.endpoint}/auth/admin/login`, { email, password }).pipe(
-      catchError(handleError)
-    );
+    return this.http.get(`${environment.endpoint}/csrf-cookie`, {withCredentials: true, observe: 'response'}).pipe(
+      switchMap (result => {
+        return this.http.post<Admin>(`${environment.endpoint}/auth/admin/login`, { email, password }).pipe(
+          catchError(handleError)
+        );
+      })
+    )
   }
 
   loginUser(email: string, password:string): Observable<any> {
-    return this.http.post<User>(`${environment.endpoint}/auth/login`, { email, password }).pipe(
-      catchError(handleError)
-    );
+    return this.http.get(`${environment.endpoint}/csrf-cookie`, {withCredentials: true, observe: 'response'}).pipe(
+      switchMap (result => {
+        return this.http.post<User>(`${environment.endpoint}/auth/login`, { email, password }).pipe(
+          catchError(handleError)
+        );
+      })
+    )
   }
 
   isLogged$(): Observable<boolean> {
@@ -40,12 +48,10 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<User|Admin> {
-    const headers = this.buildAuthHeader();  
-
     if(this.currentUser) {
       return of(this.currentUser);
     } else {
-      return this.http.get<User|Admin>(`${environment.endpoint}/user`, {headers: headers})
+      return this.http.get<User|Admin>(`${environment.endpoint}/user`)
       .pipe(tap(user => {
         const data:any = user;
         this.currentUser = data.type.includes('Admin') ? new Admin(<Admin> data.user) : new User(<User> data.user);
@@ -54,38 +60,17 @@ export class AuthService {
   }
 
   logoutAdmin(): Observable<any> {
-    const headers = this.buildAuthHeader();
-
-    return this.http.post<Admin>(`${environment.endpoint}/auth/admin/logout`, '', {headers:headers }).pipe(
-      catchError(handleError)
-    );
+    return this.http.post(`${environment.endpoint}/auth/admin/logout`, '')
+    .pipe(tap(() => this.doLogout()));
   }
 
   logoutUser(): Observable<any> {
-    const headers = this.buildAuthHeader();
-
-    return this.http.post<User>(`${environment.endpoint}/auth/logout`, '', {headers:headers }).pipe(
-      catchError(handleError)
-    );
+    return this.http.post(`${environment.endpoint}/auth/logout`, '')
+    .pipe(tap(() => this.doLogout()));
   }
 
-  doLogout(): void {
+  private doLogout(): void {
     this.currentUser = undefined;
-    localStorage.removeItem('token');
   }
 
-  buildAuthHeader(): HttpHeaders {
-    const token = localStorage.getItem('token');
-
-    if(!token) {
-      return new HttpHeaders({ 'Accept': 'application/json' });
-    }
-
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-
-    return headers;
-  }
 }

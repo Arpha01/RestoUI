@@ -83,7 +83,6 @@ export class WebnavbarComponent implements OnInit {
 
   logoutAction(res:any): void {
     if(res.status == 'success') {
-      this.authService.doLogout();
       this.isLogged = false;
       this.currentUser = undefined;
     } else {
